@@ -27,8 +27,8 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Войти</b-button>
-      <b-button type="reset" variant="primary">Зарегистрироваться</b-button>
+      <b-button type="submit" variant="primary">Войти</b-button><br>
+      <b-button type="reset" variant="link">Зарегистрироваться</b-button>
     </b-form>
   </div>
 </template>

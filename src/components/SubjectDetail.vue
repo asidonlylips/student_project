@@ -3,12 +3,25 @@
         <h1>Предмет "{{ subjectName }}"</h1>
         <div id="filters">
             <b-form-select v-model="selectedSemestr" :options="semesterOption"/>
-            <b-form-select v-show="selectedSemestr" v-model="selectedFolder" :options="folderOption"/>
+            <b-form-select v-show="selectedSemestr" v-model="selectedFolder" :options="folderOption" />
         </div>
-        <!-- <square-templates :items="subjectList" :title="'Предметы'" :icon="['fas', 'bookmark']"></square-templates> -->
-        <div id='pre'>
-
-        <pre> {{files}} </pre>
+        <div id='cont'>
+            <b-button block v-b-toggle="'collapse-lecture'" class="mb-2">Лекции</b-button>
+            <b-collapse id="collapse-lecture" class="mt-2 col">
+                <b-card v-show="selectedSemestr" v-for="item in lectures" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
+                <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
+            </b-collapse>
+            <b-button block v-b-toggle="'collapse-labs'" class="mb-2">Лабораторные работы</b-button>
+            <b-collapse id="collapse-labs" class="mt-2 col">
+                <b-card v-show="selectedSemestr" v-for="item in labs" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
+                <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
+            </b-collapse>
+            <b-button block v-b-toggle="'collapse-files'" class="mb-2">Файлы {{ folderName }}</b-button>
+            <b-collapse id="collapse-files" class="mt-2 col">
+                <b-card v-show="selectedFolder" v-for="item in files" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
+                <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
+                <b-card v-if="!selectedFolder">Выберите папку</b-card>
+            </b-collapse>
         </div>
     </div>
     
@@ -16,8 +29,8 @@
 
 <script>
 
-import SquareTemplates from './base/SquareTemplates.vue'
-import API from '../api'
+import SquareTemplates from './base/SquareTemplates.vue';
+import API from '../api';
 
 export default {
     name: 'SubjectDetail',
@@ -31,10 +44,13 @@ export default {
             subjectList: [],
             selectedSemestr: null,
             selectedFolder: null,
+            folderName: '',
             semesterOption: [{value: null, text: 'Выберите семестр'}],
             folderOption: [{value: null, text: 'Выберите папку'}],
             subjectName: '',
-            files: []
+            files: [],
+            lectures: [],
+            labs: []
         }
     },
     methods: {
@@ -53,11 +69,24 @@ export default {
                 this.files = response.data
             })
         },
+        getLabs(semId) {
+            API.get( this.$getConst('LABS_URL')(semId)).then( (response) => {
+                this.labs = response.data
+            })
+        },
+        getLecture(semId) {
+            API.get( this.$getConst('LECTURES_URL' )(semId)).then( (response) => {
+                this.lectures = response.data
+            })
+        },
         getFolders(subj_id) {
             API.get( this.$getConst('FOLDERS_URL')(subj_id)).then( (response) => {
                 response.data.map((v) => {this.folderOption.push({value: v.id, text: v.name})})
             })
-        }
+        },
+        getFolderName(foldId) {
+            return this.folderOption.filter((f) => f.value == foldId)[0].text
+        },
     },
 
     mounted() {
@@ -70,17 +99,24 @@ export default {
             if (!val) {
                 this.selectedFolder = null
                 this.folderOption = [{value: null, text: 'Выберите папку'}]
+                this.labs = []
+                this.lectures = []
             }
             else {
                 this.getFolders(val)
+                this.getLabs(val)
+                this.getLecture(val)
             }
         },
         selectedFolder: function (val) {
+            console.log(val)
             if (!val) {
                 this.files = []
+                this.folderName = ''
             }
             else {
                 this.getFiles(val)
+                this.folderName = `в папке ${this.getFolderName(val)}`
             }
         }
 
@@ -101,11 +137,12 @@ export default {
     float: left;
     margin-left: 20px;
 }
-#pre {
-    margin-top: 100px;
+#cont {
+    margin-top: 6rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 4rem;
 }
-
-
-
-
 </style>
