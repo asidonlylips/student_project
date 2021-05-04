@@ -5,6 +5,7 @@ import First from '../components/First'
 import Subjects from '../components/Subjects'
 import Login from '../components/Login'
 import SubjectDetail from '../components/SubjectDetail'
+import Regiser from '../components/Register'
 
 
 export default new VueRouter({
@@ -34,7 +35,7 @@ export default new VueRouter({
         {
             path: '/register',
             name: 'register',
-            component: Login
+            component: Regiser
         },
         {
             path: '/commands',

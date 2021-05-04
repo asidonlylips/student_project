@@ -14,7 +14,6 @@
         </template>
         <b-dropdown-item v-if='authorized'>Профиль</b-dropdown-item>
         <b-dropdown-item v-else @click="redirect">Войти</b-dropdown-item>
-        <b-dropdown-divide ></b-dropdown-divide>
         <b-dropdown-item v-if='authorized' @click="logout">Выйти</b-dropdown-item>
       </b-dropdown>
     </div>

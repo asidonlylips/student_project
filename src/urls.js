@@ -1,6 +1,7 @@
 const urls = {
-    REGISTER_URL: function() { return 'regiser/' },
+    REGISTER_URL: function() { return 'register/' },
     LOGIN_URL: function() { return 'token-auth/' },
+    GROUPS_URL: function() { return 'groups/' },
     SUBJECT_URL: function() { return 'subjects/' },
     SUBJECT_DETAIL_URL: function(subj_id) { return `subjects/${subj_id}` },
     FOLDERS_URL: function(sem_id) { return `folders?semester=${sem_id}` },

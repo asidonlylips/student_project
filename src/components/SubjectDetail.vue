@@ -6,17 +6,17 @@
             <b-form-select v-show="selectedSemestr" v-model="selectedFolder" :options="folderOption" />
         </div>
         <div id='cont'>
-            <b-button block v-b-toggle="'collapse-lecture'" class="mb-2">Лекции</b-button>
+            <b-button block v-b-toggle="'collapse-lecture'" class="mb-1 mt-1">Лекции</b-button>
             <b-collapse id="collapse-lecture" class="mt-2 col">
                 <b-card v-show="selectedSemestr" v-for="item in lectures" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
             </b-collapse>
-            <b-button block v-b-toggle="'collapse-labs'" class="mb-2">Лабораторные работы</b-button>
+            <b-button block v-b-toggle="'collapse-labs'" class="mb-1 mt-1">Лабораторные работы</b-button>
             <b-collapse id="collapse-labs" class="mt-2 col">
                 <b-card v-show="selectedSemestr" v-for="item in labs" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
             </b-collapse>
-            <b-button block v-b-toggle="'collapse-files'" class="mb-2">Файлы {{ folderName }}</b-button>
+            <b-button block v-b-toggle="'collapse-files'" class="mb-1 mt-1">Файлы {{ folderName }}</b-button>
             <b-collapse id="collapse-files" class="mt-2 col">
                 <b-card v-show="selectedFolder" v-for="item in files" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>

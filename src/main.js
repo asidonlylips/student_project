@@ -22,6 +22,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 library.add(
     faVk,
