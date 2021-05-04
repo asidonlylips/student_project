@@ -1,7 +1,7 @@
 <template>
   <div id='as'>
       
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit" v-if="show">
         <h1>Регистрация</h1><br>
             <b-container fluid>
                 <b-row class="my-1">
