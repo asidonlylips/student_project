@@ -106,6 +106,7 @@ import { ModelSelect } from 'vue-search-select'
         event.preventDefault();
         if (this.form.group === null) {
             alert('Заполните группу (потом обработаю ошибку нормально)')
+            return
         }
         try {
             let response = await axios.post('http://localhost:8000/api/' + this.$getConst('REGISTER_URL')(), this.form);
