@@ -1,20 +1,19 @@
 import VueRouter from 'vue-router'
 
-import Second from '../components/Second'
-import First from '../components/First'
 import Subjects from '../components/Subjects'
 import Login from '../components/Login'
 import SubjectDetail from '../components/SubjectDetail'
 import Regiser from '../components/Register'
+import TeacherRegister from '../components/TeacherRegister'
+import Commands from '../components/Commands'
 
 
 export default new VueRouter({
     mode: 'history',
     routes: [{
             path: '/',
-
             name: 'index',
-            component: Second
+            component: Subjects
         },
         {
             path: '/subjects',
@@ -38,29 +37,34 @@ export default new VueRouter({
             component: Regiser
         },
         {
+            path: '/teacher-register',
+            name: 'teacher-register',
+            component: TeacherRegister
+        },
+        {
             path: '/commands',
             name: 'commands',
-            component: First
+            component: Commands
         },
         {
             path: '/searchCommands',
             name: 'searchCommands',
-            component: First
+            component: Subjects
         },
         {
             path: '/devices',
             name: 'devices',
-            component: First
+            component: Subjects
         },
         {
             path: '/groups',
             name: 'groups',
-            component: First
+            component: Subjects
         },
         {
             path: '/profile',
             name: 'profile',
-            component: First
+            component: Subjects
         },
     ]
 })

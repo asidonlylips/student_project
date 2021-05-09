@@ -53,6 +53,8 @@ import axios from 'axios'
         axios.post('http://localhost:8000/api/' + this.$getConst('LOGIN_URL')(), this.form).then( (response)  => {
           localStorage.setItem('token', response.data.token)
           localStorage.setItem('username', response.data.email)
+          localStorage.setItem('role', response.data.role)
+          localStorage.setItem('is_superuser', response.data.is_superuser)
           this.$root.username = response.data.email
           this.$emit.username = response.data.email
           window.location.pathname = "/subjects"

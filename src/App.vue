@@ -7,6 +7,7 @@
       <custom-router-link :icon="['fas', 'search']" :label="'Поиск команды'" route_name="searchCommands" withLine/>
       <custom-router-link :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
       <custom-router-link :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
+      <custom-router-link :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class="right" id="dropdown" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
