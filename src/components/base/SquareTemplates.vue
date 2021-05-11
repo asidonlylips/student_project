@@ -17,6 +17,7 @@ export default {
         items: Array,
         icon: Array,
         router_name: String,
+        click: Function
     },
     data() {
         return {
@@ -25,7 +26,11 @@ export default {
     },
     methods: {
         redirect: function (itemId){
-            this.$router.push({name: this.router_name, params: {id: itemId} })
+            if (this.click){
+                this.click()
+            } else {
+                this.$router.push({name: this.router_name, params: {id: itemId} })
+            }
         }
     },
 };

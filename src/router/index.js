@@ -6,6 +6,7 @@ import SubjectDetail from '../components/SubjectDetail'
 import Regiser from '../components/Register'
 import TeacherRegister from '../components/TeacherRegister'
 import Commands from '../components/Commands'
+import Devices from '../components/Devices'
 
 
 export default new VueRouter({
@@ -54,7 +55,7 @@ export default new VueRouter({
         {
             path: '/devices',
             name: 'devices',
-            component: Subjects
+            component: Devices
         },
         {
             path: '/groups',
