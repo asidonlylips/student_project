@@ -154,6 +154,29 @@ import jQuery from 'jquery'
              * @method   : ptty_native_commands
              * @desc     : Registers the native Ptty commands
              **/
+            _public.native_commands = function() {
+
+                _public.register('command', {
+                    name: 'clear',
+                    method: function(cmd) {
+                        cmd.last = '';
+                        cmd.out = '';
+                        return cmd;
+                    },
+                    options: [],
+                    help: 'Cleans the screen leaving a new command prompt ready.'
+                });
+                _public.register('callback', {
+                    name: 'clear',
+                    method: function(cmd) {
+                        el.find('.content').html('');
+                        return cmd;
+                    }
+                });
+
+
+
+            };
 
             /**
              * @method   : ptty_native_responses
@@ -239,14 +262,12 @@ import jQuery from 'jquery'
             _public.register = function(method_type, obj) {
                 var ret = false;
                 if (obj) {
-
                     if (method_type == 'callbefore' && typeof method_exe === 'function') {
                         callbefores[method_name] = method_exe;
                         ret = true;
 
                     } else if (method_type == 'command' &&
                         (typeof method_exe === 'string' || typeof method_exe === 'function')) {
-                        commands[method_name] = { 'help': method_help, 'options': method_options, 'exe': method_exe };
                         ret = true;
 
                     } else if (method_type == 'response' && typeof method_exe === 'function') {
@@ -438,10 +459,6 @@ import jQuery from 'jquery'
             }
 
             // Register native commands and responses
-            if (settings.native_cmds) {
-                _public.native_commands();
-            }
-            _public.native_responses(cmd_opts);
 
             // Quiet!
             var quiet = null;

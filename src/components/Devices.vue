@@ -11,7 +11,7 @@
     <b-modal size="xl" class="modal-1" id="modal-1" :title="'Консоль ' + getTitle()">
         <vue-terminal
             :intro="'Нажмите Enter для начала работы'"
-            :console-sign="getTitle() + '#'"
+            :console-sign="getTitle() + '>'"
             height="500px"
             allow-arbitrary
             @command="onCliCommand"
@@ -44,7 +44,7 @@ export default {
             show: false,
             data: {
                 command: null
-            }
+            },
     
         }
     },
@@ -68,14 +68,12 @@ export default {
                     setTimeout(() => {
                     resolve(response.data['result']);
                     }, 300);   
-                })               
+                }).catch( err => reject(err))            
             } else {
                 resolve('result');
             }
         },
         sendCommand(text) {
-            console.log(text)
-            // let response = API.post(this.$getConst('REGISTER_URL')(), { 'command': text });
             let response = API.post(this.$getConst('EXEC_COMMAND')(this.selectedDevice.id), this.data )
             return response
         },
@@ -84,7 +82,7 @@ export default {
         API.get( this.$getConst('DEVICES_URL')()).then( (response) => {
             this.devicesList = response.data
         })
-    }
+    },
     
 }
 </script>
