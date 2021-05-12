@@ -2,7 +2,6 @@
     <div class="s2">
         <h1>Тест "{{ testName }}"</h1>
         <b-form >
-        <h1>Войдите в систему</h1><br>
 
         <b-container fluid>
         <b-row class="my-1">
