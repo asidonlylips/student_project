@@ -7,6 +7,8 @@ import Regiser from '../components/Register'
 import TeacherRegister from '../components/TeacherRegister'
 import Commands from '../components/Commands'
 import Devices from '../components/Devices'
+import Tests from '../components/Tests'
+import TestDetail from '../components/TestDetail'
 
 
 export default new VueRouter({
@@ -43,14 +45,19 @@ export default new VueRouter({
             component: TeacherRegister
         },
         {
+            path: '/tests',
+            name: 'tests',
+            component: Tests
+        },
+        {
+            path: '/tests/:id',
+            name: 'testDetail',
+            component: TestDetail
+        },
+        {
             path: '/commands',
             name: 'commands',
             component: Commands
-        },
-        {
-            path: '/searchCommands',
-            name: 'searchCommands',
-            component: Subjects
         },
         {
             path: '/devices',

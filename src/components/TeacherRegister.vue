@@ -51,7 +51,7 @@
 
                 <b-row class="my-1">
                     <b-col sm="2">
-                        <label class="font" for="input-default">Группа:</label>
+                        <label class="font" for="input-default">Предметы:</label>
                     </b-col>
                     <b-col sm="10">
                         <multi-select :options="subjects"

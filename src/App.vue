@@ -4,7 +4,7 @@
       <custom-router-link class="left" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
       <custom-router-link :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
       <custom-router-link :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
-      <custom-router-link :icon="['fas', 'search']" :label="'Поиск команды'" route_name="searchCommands" withLine/>
+      <custom-router-link :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
       <custom-router-link :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
       <custom-router-link :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
       <custom-router-link :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>

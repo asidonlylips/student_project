@@ -14,7 +14,9 @@ import {
     faBook,
     faBookmark,
     faSignOutAlt,
-    faTablet
+    faTablet,
+    faCheckSquare,
+    faCheckCircle
 } from '@fortawesome/free-solid-svg-icons'
 import {
     faInstagram,
@@ -39,7 +41,9 @@ library.add(
     faInstagram,
     faBookmark,
     faSignOutAlt,
-    faTablet
+    faTablet,
+    faCheckSquare,
+    faCheckCircle
 )
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
