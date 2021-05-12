@@ -18,7 +18,6 @@
             <b-img :src="'localhost:8000' + q.image"></b-img>
         </div>
             <b-form-checkbox-group
-
                 v-model="form[`question_${q.id}`]"
                 :options="q.answers"
                 class="mb-3 inline"
