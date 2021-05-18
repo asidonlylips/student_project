@@ -17,11 +17,11 @@ export default {
     },
     props: {
         lectureId: {
-            type: Number,
+            type: String,
             default: ''
         },
         labId: {
-            type: Number,
+            type: String,
             default: ''
         },
         hideTitle: {

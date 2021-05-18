@@ -1,12 +1,11 @@
 <template>
     <div class="s2" v-if="!isStarted"><b-button type="submit" variant="primary" @click="getTestInfo" class="mt-2">Начать тест!</b-button><br></div>
     <div class="s2" v-else-if="isEnded"><h2>Тест закончен</h2> <h3>Ваша оценка за тест: {{ mark }}</h3> </div>
-    <div class="s2" v-else>
+    <div class="s3" v-else>
         <h1>Тест "{{ testName }}"</h1>
         <b-form >
 
-        <b-container fluid>
-        <b-row class="my-1">
+        <b-container fuid>
             <b-form-group
             v-for="q, index in test.questions"
             :key="q.id"
@@ -23,13 +22,12 @@
                 v-model="form[`question_${q.id}`]"
                 :options="q.answers"
                 class="mb-3 inline mt-2"
-                value-field="id"
+                value-field="answer"
                 text-field="answer"
                 >
             </b-form-checkbox-group>
             <hr>
         </b-form-group>
-        </b-row>
         </b-container>
         <b-button type="submit" variant="primary" @click="subm">Завершить тест</b-button><br>
         </b-form>
@@ -63,6 +61,13 @@ export default {
             mark: ''
         }
     },
+    mounted() {        
+        let test_id = this.$route.params.id
+        if (localStorage[`isStartedTest_${test_id}`]) {
+            this.isStarted = true
+            this.getTestInfo()
+        }
+    },
     methods: {
         async getTestInfo() {
             this.form = {}
@@ -76,6 +81,7 @@ export default {
                     this.form[`question_${q.id}`] = []
                 })
                 this.isStarted = true
+                localStorage.setItem(`isStartedTest_${test_id}`, true)
             } catch (er) {
                 Vue.$toast.error(er.response.data.message);
             }
@@ -85,6 +91,7 @@ export default {
             let test_id = this.$route.params.id
             let response = await API.put(this.$getConst('TEST_DETAIL_URL')(test_id)+'/', this.form)
             this.mark = response.data['mark']
+            localStorage.removeItem(`isStartedTest_${test_id}`)
             this.isEnded = true
         },
         selectAnswer(question, answer) {
@@ -109,8 +116,9 @@ export default {
 
 <style>
 
-.s2 {
+.s3 {
     width: 100% !important;
+    display: block !important;
 }
 #filters > * {
     display: inline;
@@ -130,5 +138,11 @@ export default {
 .inline {
     display: inline !important;
     margin: 10px;
+}
+.col-form-label-lg {
+    font-size: 2rem !important;
+}
+.custom-control-label {
+    font-size: 1.2rem !important;
 }
 </style>

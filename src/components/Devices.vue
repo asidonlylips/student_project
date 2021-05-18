@@ -12,6 +12,7 @@
         <vue-terminal
             :intro="'Нажмите Enter для начала работы'"
             :console-sign="getTitle() + '>'"
+            style="color: white !important;"
             height="500px"
             allow-arbitrary
             @command="onCliCommand"
@@ -66,7 +67,7 @@ export default {
                 this.data.command = data.text
                 this.sendCommand(data.text).then( (response) => {
                     setTimeout(() => {
-                    resolve(response.data['result']);
+                    resolve( `<pre>${response.data['result']}</pre>`);
                     }, 300);   
                 }).catch( err => reject(err))            
             } else {
@@ -91,6 +92,9 @@ export default {
 }
 
 <style>
+pre {
+    color: white !important;
+}
 
 
 </style>

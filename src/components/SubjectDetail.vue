@@ -100,12 +100,12 @@ export default {
         },
         selectLab(id) {
             this.selectedLecture = ''
-            this.selectLab = id            
+            this.selectedLab = id.toString()    
             this.$bvModal.show("modal-12")
         },
         selectLecture(id) {
-            this.selectedLecture = id
-            this.selectLab = ''            
+            this.selectedLecture = id.toString()
+            this.selectedLab = ''            
             this.$bvModal.show("modal-12")
         }
     },
