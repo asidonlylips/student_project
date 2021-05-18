@@ -3,7 +3,7 @@ const urls = {
     LOGIN_URL: function() { return 'token-auth/' },
     GROUPS_URL: function() { return 'groups/' },
     SUBJECT_URL: function() { return 'subjects/' },
-    TESTS_URL: function() { return 'tests/' },
+    TESTS_URL: function(lectureId = '', labId = '') { return `tests/?lab=${labId}&lecture=${lectureId}` },
     TEST_DETAIL_URL: function(id) { return `tests/${id}` },
     CONNECT_URL: function() { return 'connect/' },
     DISCONNECT_URL: function() { return 'disconnect/' },

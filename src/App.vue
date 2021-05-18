@@ -2,14 +2,14 @@
  <div id="app">
     <div id="nav">
       <custom-router-link class="left" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
-      <custom-router-link :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
-      <custom-router-link :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
-      <custom-router-link :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
-      <custom-router-link :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
-      <custom-router-link :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
-      <custom-router-link :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
+      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
+      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
+      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
+      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
+      <custom-router-link v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
+      <custom-router-link v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
-      <b-dropdown class="right" id="dropdown" variant="primary" text="Dropdown Button">
+      <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
           <font-awesome-icon :click="logout" :icon="['fas', 'user']" size='lg' /> {{ username }}
         </template>
@@ -43,17 +43,23 @@ export default {
   data() {
     return {
       username: 'User',
-      authorized: false
+      authorized: false,
+      is_superuser: false,
+      role: null
     }
   },
   mounted() {
-    console.log(localStorage.username)
     if (localStorage.username){
       this.username = localStorage.username
     }
     if (localStorage.token){
       this.authorized = true
-
+    }
+    if (localStorage.is_superuser){
+      this.is_superuser = localStorage.is_superuser == 'true'
+    }
+    if (localStorage.role){
+      this.role = localStorage.role
     }
   },
   methods: {
@@ -61,6 +67,8 @@ export default {
         event.preventDefault()
         localStorage.removeItem('username');
         localStorage.removeItem('token');
+        localStorage.removeItem('role')
+        localStorage.removeItem('is_superuser')
         
         window.location.pathname = "/login"
       },
@@ -114,10 +122,16 @@ body {
   background-color: #304c67;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  min-height: 4rem;
 }
 
 .right {
   float: right;
+}
+.right-us {
+  position:absolute !important;
+  right:0px !important;
+  top: 1.5rem;
 }
 .left {
   position: absolute;

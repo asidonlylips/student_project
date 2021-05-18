@@ -8,12 +8,19 @@
         <div id='cont'>
             <b-button block v-b-toggle="'collapse-lecture'" class="mb-1 mt-1">Лекции</b-button>
             <b-collapse id="collapse-lecture" class="mt-2 col">
-                <b-card v-show="selectedSemestr" v-for="item in lectures" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
+                <b-card v-show="selectedSemestr" v-for="item in lectures" :key="item.id">
+                    <b-link :href="item.file" target="_blank">{{item.name}}</b-link> | 
+                    <b-link @click="selectLecture(item.id)">Тесты</b-link>
+
+                </b-card>
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
             </b-collapse>
             <b-button block v-b-toggle="'collapse-labs'" class="mb-1 mt-1">Лабораторные работы</b-button>
             <b-collapse id="collapse-labs" class="mt-2 col">
-                <b-card v-show="selectedSemestr" v-for="item in labs" :key="item.id"><b-link :href="item.file" target="_blank">{{item.name}}</b-link></b-card>
+                <b-card v-show="selectedSemestr" v-for="item in labs" :key="item.id">
+                    <b-link :href="item.file" target="_blank">{{item.name}}</b-link> | 
+                    <b-link @click="selectLab(item.id)">Тесты</b-link>
+                </b-card>
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
             </b-collapse>
             <b-button block v-b-toggle="'collapse-files'" class="mb-1 mt-1">Файлы {{ folderName }}</b-button>
@@ -23,6 +30,9 @@
                 <b-card v-if="!selectedFolder">Выберите папку</b-card>
             </b-collapse>
         </div>
+        <b-modal size="xl" class="modal-12" id="modal-12" :title="'Тесты'">
+            <tests :lectureId='selectedLecture' :labId='selectedLab' hideTitle/>
+        </b-modal>
     </div>
     
 </template>
@@ -31,13 +41,12 @@
 
 import SquareTemplates from './base/SquareTemplates.vue';
 import API from '../api';
+import Tests from './Tests.vue';
 
 export default {
     name: 'SubjectDetail',
     components: {
-        // SquareTemplates
-    },
-    props: {
+        Tests
     },
     data() {
         return {
@@ -50,7 +59,9 @@ export default {
             subjectName: '',
             files: [],
             lectures: [],
-            labs: []
+            labs: [],
+            selectedLab: '',
+            selectedLecture: '',
         }
     },
     methods: {
@@ -87,6 +98,16 @@ export default {
         getFolderName(foldId) {
             return this.folderOption.filter((f) => f.value == foldId)[0].text
         },
+        selectLab(id) {
+            this.selectedLecture = ''
+            this.selectLab = id            
+            this.$bvModal.show("modal-12")
+        },
+        selectLecture(id) {
+            this.selectedLecture = id
+            this.selectLab = ''            
+            this.$bvModal.show("modal-12")
+        }
     },
 
     mounted() {
@@ -144,5 +165,8 @@ export default {
     margin-left: 2rem;
     margin-right: 2rem;
     margin-bottom: 4rem;
+}
+.special-btn {
+    margin: 0 0 0 1rem !important;
 }
 </style>

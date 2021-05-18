@@ -1,5 +1,7 @@
 <template>
-    <div class="s2">
+    <div class="s2" v-if="!isStarted"><b-button type="submit" variant="primary" @click="getTestInfo" class="mt-2">Начать тест!</b-button><br></div>
+    <div class="s2" v-else-if="isEnded"><h2>Тест закончен</h2> <h3>Ваша оценка за тест: {{ mark }}</h3> </div>
+    <div class="s2" v-else>
         <h1>Тест "{{ testName }}"</h1>
         <b-form >
 
@@ -7,23 +9,25 @@
         <b-row class="my-1">
             <b-form-group
             v-for="q, index in test.questions"
-            :key="q"
+            :key="q.id"
             class="mb-5"
+            label-size="lg"
             id="input-group-1"
             :label="index+1 + '. ' + q.question"
             label-for="input-1"
         >
         <div v-if="!!q.image">
-            <b-img :src="'localhost:8000' + q.image"></b-img>
+            <b-img :src="'http://localhost:8000' + q.image" fluid class="mb-2"></b-img>
         </div>
             <b-form-checkbox-group
                 v-model="form[`question_${q.id}`]"
                 :options="q.answers"
-                class="mb-3 inline"
+                class="mb-3 inline mt-2"
                 value-field="id"
                 text-field="answer"
                 >
             </b-form-checkbox-group>
+            <hr>
         </b-form-group>
         </b-row>
         </b-container>
@@ -36,6 +40,7 @@
 <script>
 
 import API from '../api';
+import Vue from 'vue';
 
 export default {
     name: 'TestDetail',
@@ -46,12 +51,6 @@ export default {
     },
     data() {
         return {
-            subjectList: [],
-            selectedSemestr: null,
-            selectedFolder: null,
-            folderName: '',
-            semesterOption: [{value: null, text: 'Выберите семестр'}],
-            folderOption: [{value: null, text: 'Выберите папку'}],
             testName: '',
             files: [],
             lectures: [],
@@ -59,23 +58,34 @@ export default {
             status: null,
             test: null,
             form: {},
+            isStarted: false,
+            isEnded: false,
+            mark: ''
         }
     },
     methods: {
-        getTestInfo(id) {
+        async getTestInfo() {
             this.form = {}
-            API.get( this.$getConst('TEST_DETAIL_URL')(id)).then( (response) => {
+            let test_id = this.$route.params.id
+            try {
+                let response = await API.get( this.$getConst('TEST_DETAIL_URL')(test_id))
+                console.log(response)
                 this.test = response.data
                 this.testName = response.data.name
                 response.data.questions.forEach(q => {
                     this.form[`question_${q.id}`] = []
                 })
-                console.log(this.form)
-            })
+                this.isStarted = true
+            } catch (er) {
+                Vue.$toast.error(er.response.data.message);
+            }
         },
-        subm(e) {
+        async subm(e) {
             e.preventDefault()
-            console.log(this.form)
+            let test_id = this.$route.params.id
+            let response = await API.put(this.$getConst('TEST_DETAIL_URL')(test_id)+'/', this.form)
+            this.mark = response.data['mark']
+            this.isEnded = true
         },
         selectAnswer(question, answer) {
             var index = this.form[`question_${question.id}`].indexOf(answer.id);
@@ -86,11 +96,6 @@ export default {
             }
 
         }
-    },
-
-    mounted() {
-        let test_id = this.$route.params.id
-        this.getTestInfo(test_id)
     },
     watch: {
         status: function (val) {

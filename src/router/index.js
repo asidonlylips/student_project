@@ -16,18 +16,27 @@ export default new VueRouter({
     routes: [{
             path: '/',
             name: 'index',
-            component: Subjects
+            component: Subjects,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/subjects',
             name: 'subjects',
-            component: Subjects
+            component: Subjects,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/subjecs/:id',
             name: 'subjectDetail',
             props: true,
-            component: SubjectDetail
+            component: SubjectDetail,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/login',
@@ -42,37 +51,58 @@ export default new VueRouter({
         {
             path: '/teacher-register',
             name: 'teacher-register',
-            component: TeacherRegister
+            component: TeacherRegister,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/tests',
             name: 'tests',
-            component: Tests
+            component: Tests,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/tests/:id',
             name: 'testDetail',
-            component: TestDetail
+            component: TestDetail,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/commands',
             name: 'commands',
-            component: Commands
+            component: Commands,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/devices',
             name: 'devices',
-            component: Devices
+            component: Devices,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/groups',
             name: 'groups',
-            component: Subjects
+            component: Subjects,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/profile',
             name: 'profile',
-            component: Subjects
+            component: Subjects,
+            meta: {
+                requiresAuth: true
+            }
         },
     ]
 })

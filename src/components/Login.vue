@@ -7,12 +7,11 @@
         id="input-group-1"
         label="Имя пользователя:"
         label-for="input-1"
-        description="username"
       >
         <b-form-input
           id="input-1"
           v-model="form.username"
-          placeholder="Enter email"
+          placeholder="Введите имя пользователя"
           required
         ></b-form-input>
       </b-form-group>
@@ -36,6 +35,7 @@
 <script>
 import API from '../api'
 import axios from 'axios'
+import Vue from 'vue';
 
   export default {
     data() {
@@ -57,8 +57,12 @@ import axios from 'axios'
           localStorage.setItem('is_superuser', response.data.is_superuser)
           this.$root.username = response.data.email
           this.$emit.username = response.data.email
+          this.$root.is_superuser = response.data.is_superuser
+          this.$emit.is_superuser = response.data.is_superuser
+          this.$root.role = response.data.role
+          this.$emit.role = response.data.role
           window.location.pathname = "/subjects"
-        })
+        }, (er) => Vue.$toast.error('Логин или пароль введены неверно'))
       },
 
       onReset(event) {

@@ -1,6 +1,6 @@
 <template>
     <div id="subjects">
-        <square-templates :router_name="'testDetail'" :items="subjectList" :title="'Тесты'" :icon="['fa', 'check-circle']"></square-templates>
+        <square-templates :router_name="'testDetail'" :items="subjectList" :title="getDefaultTitle()" :icon="['fa', 'check-circle']"></square-templates>
     </div>
     
 </template>
@@ -15,16 +15,35 @@ export default {
     components: {
         SquareTemplates
     },
+    props: {
+        lectureId: {
+            type: Number,
+            default: ''
+        },
+        labId: {
+            type: Number,
+            default: ''
+        },
+        hideTitle: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             subjectList: [],
         }
     },
     mounted() {
-        API.get( this.$getConst('TESTS_URL')()).then( (response) => {
+        API.get( this.$getConst('TESTS_URL')(this.lectureId, this.labId)).then( (response) => {
             this.subjectList = response.data
         })
     },
+    methods: {
+        getDefaultTitle() {
+            return this.hideTitle? '' : 'Тесты'
+        }
+    }
 
     
 }

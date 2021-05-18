@@ -77,6 +77,7 @@
 import API from '../api'
 import axios from 'axios'
 import { ModelSelect } from 'vue-search-select'
+import Vue from 'vue';
 
   export default {
     name: 'Register',
@@ -111,8 +112,10 @@ import { ModelSelect } from 'vue-search-select'
         try {
             let response = await axios.post('http://localhost:8000/api/' + this.$getConst('REGISTER_URL')(), this.form);
             this.$router.push( { name: 'login'} )
-        } catch {
-            alert('Oops... Smt going wrong')
+        } catch (er) {
+            for (let err in er.response.data) {
+                Vue.$toast.error(`${err} ${er.response.data[err]}`)
+            } 
         }        
       },
       async getGroups() {
