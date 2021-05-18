@@ -4,7 +4,22 @@
     <div class="s3" v-else>
         <h1>Тест "{{ testName }}"</h1>
         <b-form >
-
+        <div class='circle timer' :class="{'with-hours': estimatedTime > 3600}">
+            <vue-countdown-timer
+                @start_callback="startCallBack('Тест начат')"
+                @end_callback="endCallBack('Время вышло!')"
+                :start-time="startTime"
+                :end-time="endTime"
+                :interval="1000"
+                :seconds-txt="''"
+                label-position="begin">
+                <template slot="countdown" slot-scope="scope">
+                    <span v-if="estimatedTime > 3600">{{scope.props.hours}}</span><i v-if="estimatedTime > 3600">:</i>
+                    <span>{{scope.props.minutes}}</span><i>{{scope.props.minutesTxt}}</i>
+                    <span>{{scope.props.seconds}}</span><i>{{scope.props.secondsTxt}}</i>
+                </template>
+            </vue-countdown-timer>
+        </div>
         <b-container fuid>
             <b-form-group
             v-for="q, index in test.questions"
@@ -24,6 +39,7 @@
                 class="mb-3 inline mt-2"
                 value-field="answer"
                 text-field="answer"
+                @input="saveToState"
                 >
             </b-form-checkbox-group>
             <hr>
@@ -43,7 +59,6 @@ import Vue from 'vue';
 export default {
     name: 'TestDetail',
     components: {
-        // SquareTemplates
     },
     props: {
     },
@@ -54,18 +69,22 @@ export default {
             lectures: [],
             labs: [],
             status: null,
-            test: null,
+            test: {questions: []},
             form: {},
             isStarted: false,
             isEnded: false,
-            mark: ''
+            mark: '',
+            startTime: (new Date).getTime()+100000000000,
+            endTime: (new Date).getTime()+100000000000,
+            estimatedTime: 0,
         }
     },
-    mounted() {        
+    async mounted() {
         let test_id = this.$route.params.id
         if (localStorage[`isStartedTest_${test_id}`]) {
             this.isStarted = true
-            this.getTestInfo()
+            await this.getTestInfo()
+            // this.form = localStorage[`isStartedTest_${test_id}`]
         }
     },
     methods: {
@@ -74,25 +93,44 @@ export default {
             let test_id = this.$route.params.id
             try {
                 let response = await API.get( this.$getConst('TEST_DETAIL_URL')(test_id))
-                console.log(response)
                 this.test = response.data
                 this.testName = response.data.name
+                let savedTest = localStorage[`isStartedTest_${test_id}`] ? JSON.parse(localStorage[`isStartedTest_${test_id}`]) : []
                 response.data.questions.forEach(q => {
-                    this.form[`question_${q.id}`] = []
+                    if (!localStorage[`isStartedTest_${test_id}`]){
+                        this.form[`question_${q.id}`] = []
+                    } else {
+                        this.form[`question_${q.id}`] = [...Object.values(savedTest[`question_${q.id}`])]
+                    }
                 })
+                this.estimatedTime = parseInt(response.data.estimated_time)
+                this.endTime = (new Date).getTime() +  this.estimatedTime * 1000
+                this.startTime = (new Date).getTime()
+                localStorage.setItem(`isStartedTest_${test_id}`, JSON.stringify(this.form))
                 this.isStarted = true
-                localStorage.setItem(`isStartedTest_${test_id}`, true)
             } catch (er) {
-                Vue.$toast.error(er.response.data.message);
+                Vue.$toast.error(er);
             }
         },
-        async subm(e) {
-            e.preventDefault()
+    startCallBack: function(x) {
+      console.log(x);
+    },
+    endCallBack: function(x) {
+        this.subm();
+    },
+        async subm(e = false) {
+            if (e) {
+                e.preventDefault()
+            }
             let test_id = this.$route.params.id
-            let response = await API.put(this.$getConst('TEST_DETAIL_URL')(test_id)+'/', this.form)
-            this.mark = response.data['mark']
-            localStorage.removeItem(`isStartedTest_${test_id}`)
+            try {
+                let response = await API.put(this.$getConst('TEST_DETAIL_URL')(test_id)+'/', this.form)
+                this.mark = response.data['mark']
+                localStorage.removeItem(`isStartedTest_${test_id}`)
             this.isEnded = true
+            } catch (er) {
+                Vue.$toast.error(er);
+            }
         },
         selectAnswer(question, answer) {
             var index = this.form[`question_${question.id}`].indexOf(answer.id);
@@ -101,15 +139,13 @@ export default {
             } else {
                 this.form[`question_${question.id}`].push(answer.id)
             }
-
+        },
+        saveToState() {
+            let test_id = this.$route.params.id
+            localStorage.setItem(`isStartedTest_${test_id}`, JSON.stringify(this.form))
+            localStorage[`isStartedTest_${test_id}`]
         }
     },
-    watch: {
-        status: function (val) {
-            console.log(val)
-        },
-
-    }
     
 }
 </script>
@@ -144,5 +180,35 @@ export default {
 }
 .custom-control-label {
     font-size: 1.2rem !important;
+}
+.timer {
+    position: fixed;
+    right: 3rem;
+    font-size: 2rem;
+    border: 2px solid #2b5c8a;
+    background-color: rgba(78, 200, 221, 0.103);
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.with-hours {
+    width: 8rem;
+    height: 8rem;
+}
+@media (max-width: 720px) { 
+    .timer {
+        right: 10px;
+        font-size: 1.5rem;
+        width: 4rem;
+        height: 4rem;
+    }
+    .with-hours {
+        width: 6rem;
+        height: 6rem;
+    }
+
 }
 </style>

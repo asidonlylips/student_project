@@ -2,7 +2,7 @@
   <div id='as'>
       
     <b-form @submit="onSubmit" v-if="show">
-        <h1>Регистрация</h1><br>
+        <h1>Доабвить преподавателя</h1><br>
             <b-container fluid>
                 <b-row class="my-1">
                     <b-col sm="2">
@@ -57,7 +57,7 @@
                         <multi-select :options="subjects"
                             class='ml-5'
                             :selected-options="items"
-                            placeholder="select item"
+                            placeholder="выберите предмет"
                             required
                             @select="onSelect">
                         </multi-select>

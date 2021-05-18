@@ -17,7 +17,8 @@ import {
     faSignOutAlt,
     faTablet,
     faCheckSquare,
-    faCheckCircle
+    faCheckCircle,
+    faAlignJustify
 } from '@fortawesome/free-solid-svg-icons'
 import {
     faInstagram,
@@ -44,13 +45,15 @@ library.add(
     faSignOutAlt,
     faTablet,
     faCheckSquare,
-    faCheckCircle
+    faCheckCircle,
+    faAlignJustify
 )
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-toast-notification/dist/theme-sugar.css';
+import VueCountdownTimer from 'vuejs-countdown-timer';
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
     // Optionally install the BootstrapVue icon components plugin
@@ -58,6 +61,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueToast, {
     position: 'top-right'
 })
+Vue.use(VueCountdownTimer);
 
 import urls from './urls'
 Vue.use(urls);

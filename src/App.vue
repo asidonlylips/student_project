@@ -1,22 +1,35 @@
 <template>
  <div id="app">
     <div id="nav">
-      <custom-router-link class="left" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
-      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
-      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
-      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
-      <custom-router-link v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
-      <custom-router-link v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
-      <custom-router-link v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
+      <custom-router-link class="left hide" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
+      <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
+      <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
           <font-awesome-icon :click="logout" :icon="['fas', 'user']" size='lg' /> {{ username }}
         </template>
         <b-dropdown-item v-if='authorized'>Профиль</b-dropdown-item>
-        <b-dropdown-item v-else @click="redirect">Войти</b-dropdown-item>
+        <b-dropdown-item v-else @click="redirect('login')">Войти</b-dropdown-item>
         <b-dropdown-item v-if='authorized' @click="logout">Выйти</b-dropdown-item>
       </b-dropdown>
+
+      <b-dropdown class='left-us show' id="dropdown-1" variant="primary" text="Dropdown Button">
+        <template v-slot:button-content>
+          <font-awesome-icon :icon="['fas', 'align-justify']" size='lg' />
+        </template>
+        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('subjects')">Предметы</b-dropdown-item>
+        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('commands')">Команды</b-dropdown-item>
+        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('tests')">Тесты</b-dropdown-item>
+        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('devices')">Устройства</b-dropdown-item>
+        <b-dropdown-item class="show" v-if="role == '2' | is_superuser" @click="redirect('groups')">Группы</b-dropdown-item>
+        <b-dropdown-item class="show" v-if="is_superuser" @click="redirect('teacher-register')">Добавить</b-dropdown-item>
+      </b-dropdown>
+
     </div>
     <div id="container">
       <router-view></router-view>
@@ -76,8 +89,8 @@ export default {
       console.log(Boolean(localStorage.token))
       return Boolean(localStorage.token)
     },
-    redirect() {
-      this.$router.push({name: 'login'})
+    redirect(url_name) {
+      this.$router.push({name: url_name})
     }
 
   },
@@ -131,6 +144,11 @@ body {
 .right-us {
   position:absolute !important;
   right:0px !important;
+  top: 1.5rem;
+}
+.left-us {
+  position:absolute !important;
+  left:0px !important;
   top: 1.5rem;
 }
 .left {
@@ -192,4 +210,21 @@ h1 {
   padding-right: 10px;
 }
 
+.show {
+  display: none !important;
+}
+
+.show .dropdown-toggle::after {
+    display:none;
+}
+
+@media (max-width: 1040px) { 
+    .hide {
+        display: none !important;
+    }
+    .show {
+      display: inline-block !important;
+    }
+
+}
 </style>
