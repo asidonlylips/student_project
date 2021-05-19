@@ -18,16 +18,16 @@
         <b-dropdown-item v-if='authorized' @click="logout">Выйти</b-dropdown-item>
       </b-dropdown>
 
-      <b-dropdown class='left-us show' id="dropdown-1" variant="primary" text="Dropdown Button">
+      <b-dropdown class='left-us is_showed' id="dropdown-1" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
           <font-awesome-icon :icon="['fas', 'align-justify']" size='lg' />
         </template>
-        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('subjects')">Предметы</b-dropdown-item>
-        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('commands')">Команды</b-dropdown-item>
-        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('tests')">Тесты</b-dropdown-item>
-        <b-dropdown-item class="show" v-if="role | is_superuser" @click="redirect('devices')">Устройства</b-dropdown-item>
-        <b-dropdown-item class="show" v-if="role == '2' | is_superuser" @click="redirect('groups')">Группы</b-dropdown-item>
-        <b-dropdown-item class="show" v-if="is_superuser" @click="redirect('teacher-register')">Добавить</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('subjects')">Предметы</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('commands')">Команды</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('tests')">Тесты</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('devices')">Устройства</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role == '2' | is_superuser" @click="redirect('groups')">Группы</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="is_superuser" @click="redirect('teacher-register')">Добавить</b-dropdown-item>
       </b-dropdown>
 
     </div>
@@ -210,11 +210,11 @@ h1 {
   padding-right: 10px;
 }
 
-.show {
+.is_showed {
   display: none !important;
 }
 
-.show .dropdown-toggle::after {
+.is_showed .dropdown-toggle::after {
     display:none;
 }
 
@@ -222,7 +222,7 @@ h1 {
     .hide {
         display: none !important;
     }
-    .show {
+    .is_showed {
       display: inline-block !important;
     }
 
