@@ -1,9 +1,25 @@
 <template>
     <div>
         <h1>{{ title }}</h1>
-        <div id="subj-list">            
-            <div class="sqLink" v-for="item in items" :key="item.id" v-on:click="redirect(item.id)">
-                 <font-awesome-icon class="sm-icon" :icon="icon" :size="'2x'"  />{{ '  ' }} {{ item.name }}
+        <slot class="d-block"> </slot>
+        <div id="subj-list">       
+            <div class="sqLink" :class="{'sqLink2': !!item.completion_date}" v-for="item in items" :key="item.id" v-on:click="redirect(item.id)">
+                <b-row v-if='item.completion_date' class='rem1'>
+                    <b-col>
+                        {{ item.group }}
+                    </b-col>
+                    <b-col>{{ formatDate(new Date(item.completion_date)) }}</b-col>
+                </b-row>
+                <b-row v-if='item.completion_date'>
+                    <b-col><font-awesome-icon class="sm-icon" :icon="icon" :size="'2x'"  />{{ '  ' }} {{ item.name }}</b-col>
+                </b-row>
+                <b-row v-if='item.completion_date' class='rem1'>
+                    <b-col>
+                        {{ item.student }}
+                    </b-col>
+                </b-row >
+                <div v-else><font-awesome-icon class="sm-icon" :icon="icon" :size="'2x'"  />{{ '  ' }} {{ item.name }}</div>
+                 
             </div>
         </div>
     </div>
@@ -31,6 +47,19 @@ export default {
             } else {
                 this.$router.push({name: this.router_name, params: {id: itemId} })
             }
+        },
+        formatDate(date) {
+
+            var dd = date.getDate();
+            if (dd < 10) dd = '0' + dd;
+
+            var mm = date.getMonth() + 1;
+            if (mm < 10) mm = '0' + mm;
+
+            var yy = date.getFullYear() % 100;
+            if (yy < 10) yy = '0' + yy;
+
+            return dd + '.' + mm + '.' + yy;
         }
     },
 };
@@ -48,6 +77,7 @@ export default {
     align-items: center;
     justify-content: center;
     box-shadow: 6px -4px 1em 0px rgb(0 0 0 / 32%);
+    flex-wrap: wrap;
 
 }
 
@@ -62,6 +92,8 @@ export default {
 
 .sm-icon {
     padding-right: 4px;
+    align-self: center !important;
+    justify-self: center !important;
 }
 
 .sqLink:hover {
@@ -74,4 +106,25 @@ export default {
     transition-duration: 1s;
 }
 
+.sqLink2 {
+    width: 300px !important;
+}
+
+.top-l {
+    align-self: flex-end;
+}
+.bot {
+    align-self: flex-end;
+}
+
+.rem1 {
+    font-size: 0.85rem !important;
+}
+
+</style>
+
+<style scoped>
+.row {
+    width: 100% !important;
+}
 </style>

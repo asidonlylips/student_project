@@ -9,6 +9,8 @@ import Commands from '../components/Commands'
 import Devices from '../components/Devices'
 import Tests from '../components/Tests'
 import TestDetail from '../components/TestDetail'
+import TestResult from '../components/TestResult'
+import TestResultDetail from '../components/TestResultDetail'
 
 
 export default new VueRouter({
@@ -100,6 +102,22 @@ export default new VueRouter({
             path: '/profile',
             name: 'profile',
             component: Subjects,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/tests-results',
+            name: 'tests-results',
+            component: TestResult,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/tests-results/:id',
+            name: 'tests-results-detail',
+            component: TestResultDetail,
             meta: {
                 requiresAuth: true
             }

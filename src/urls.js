@@ -16,6 +16,9 @@ const urls = {
     FILES_URL: function(fold_id) { return `files?folder=${fold_id}` },
     LECTURES_URL: function(semId) { return `lectures?semester=${semId}` },
     LABS_URL: function(semId) { return `labs?semester=${semId}` },
+    TEST_RESULTS_URL: function(testId = '', groupId = '', studentId = '') { return `tests-results?test=${testId}&student__group=${groupId}&student=${studentId}` },
+    TEST_RESULT_URL: function(id) { return `tests-results/${id}` },
+    STUDENTS_URL: function(id = '') { return `users?group=${id}&role=1` },
     SEMESTERS_URL: function(subj_id) { return `semesters?subject=${subj_id}` }
 }
 
