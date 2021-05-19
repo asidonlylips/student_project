@@ -1,6 +1,7 @@
 <template>
     <div class="s3" >
         <h1>Результат теста "{{ test.name }}" </h1>
+        <h3>Ваша оценка за тест: {{ mark }}</h3> <br>
         <p class='right-a mr-2'>Ответ выбран верно</p> 
         <p class="inc-a mr-2"> Ответ выбран не верно</p>
         <p class="cor-a"> Верный ответ</p>
@@ -73,6 +74,7 @@ export default {
                 console.log(response.data.test.questions)
                 this.test = response.data.test
                 this.testName = response.data.name
+                this.mark = response.data.mark
                 response.data.test.questions.forEach(q => {
                     this.form[`question_${q.id}`] = [...q.answers_res.map((a) => {
                         if (a.is_checked){
