@@ -11,6 +11,7 @@ import Tests from '../components/Tests'
 import TestDetail from '../components/TestDetail'
 import TestResult from '../components/TestResult'
 import TestResultDetail from '../components/TestResultDetail'
+import Reports from '../components/Reports'
 
 
 export default new VueRouter({
@@ -118,6 +119,14 @@ export default new VueRouter({
             path: '/tests-results/:id',
             name: 'tests-results-detail',
             component: TestResultDetail,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/reports',
+            name: 'reports',
+            component: Reports,
             meta: {
                 requiresAuth: true
             }

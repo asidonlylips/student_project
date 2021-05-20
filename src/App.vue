@@ -8,6 +8,7 @@
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Результы'" route_name="tests-results" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
       <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Отчеты'" route_name="reports" withLine/>
       <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">
@@ -27,7 +28,9 @@
         <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('commands')">Команды</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('tests')">Тесты</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('devices')">Устройства</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="redirect('tests-results')">Результы</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="role == '2' | is_superuser" @click="redirect('groups')">Группы</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role == '2' | is_superuser" @click="redirect('reports')">Отчеты</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="is_superuser" @click="redirect('teacher-register')">Добавить</b-dropdown-item>
       </b-dropdown>
 

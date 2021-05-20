@@ -1,6 +1,6 @@
 <template>
     <div id="subjects"> 
-        <square-templates :router_name="'tests-results-detail'" :items="testsResults" :title="'Предметы'" :icon="['fas', 'bookmark']">
+        <square-templates :router_name="'tests-results-detail'" :items="testsResults" :title="'Результаты'" :icon="['fas', 'bookmark']">
             <div id="filters">
                 <b-form-select v-model="selectedTest" :options="testsOptions"/>
                 <b-form-select v-model="selectedGroup" :options="groupsOptions" />
@@ -40,7 +40,7 @@ export default {
             let response = await API.get(this.$getConst('STUDENTS_URL')(group))
             this.studentsOptions = [{ value: null, text: 'Выберите студента'}]
             response.data.map((v) => {
-                this.studentsOptions.push({value: v.id, text: v.name})
+                this.studentsOptions.push({value: v.id, text: `${v.first_name } ${v.last_name}`})
                 })
         },
         async getGroups() {
@@ -53,13 +53,12 @@ export default {
         async getTests() {
             let response = await API.get(this.$getConst('TESTS_URL')())
             this.testsOptions = [{ value: null, text: 'Выберите тест'}]
-            console.log(response)
             response.data.map((v) => {
                 this.testsOptions.push({value: v.id, text: v.name})
             })
         },
         async getTestResults() {
-            let group = this.selectedGroup ? this.selectedGroup & !this.selectedStudent : ''
+            let group = this.selectedGroup ? this.selectedStudent ? '' : this.selectedGroup : ''
             let test = this.selectedTest ? this.selectedTest : ''
             let student = this.selectedStudent ? this.selectedStudent : ''
             let response = await API.get(this.$getConst('TEST_RESULTS_URL')(test, group, student))
@@ -71,6 +70,19 @@ export default {
         await this.getGroups()
         await this.getTests()
         await this.getTestResults()
+    },
+    watch: {
+        selectedGroup: function (val) {
+            this.getStudents()
+            this.getTestResults()
+        },
+        selectedTest: function (val) {
+            this.getTestResults()
+        },
+        selectedStudent: function (val) {
+            this.getTestResults()
+        },
+        
     }
     
 }
