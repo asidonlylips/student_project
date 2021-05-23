@@ -3,8 +3,8 @@
         <square-templates :router_name="'tests-results-detail'" :items="testsResults" :title="'Результаты'" :icon="['fas', 'bookmark']">
             <div id="filters">
                 <b-form-select v-model="selectedTest" :options="testsOptions"/>
-                <b-form-select v-model="selectedGroup" :options="groupsOptions" />
-                <b-form-select v-model="selectedStudent" :options="studentsOptions" />
+                <b-form-select v-model="selectedGroup" :options="groupsOptions"  v-show='notStudent' />
+                <b-form-select v-model="selectedStudent" :options="studentsOptions"  v-show='notStudent' />
                 <br><br><br>
             </div>
         </square-templates>
@@ -31,6 +31,7 @@ export default {
             testsOptions: [],
             studentsOptions: [],
             groupsOptions: [],
+            notStudent: false,
 
         }
     },
@@ -66,10 +67,13 @@ export default {
         }
     },
     async mounted() {
-        await this.getStudents()
-        await this.getGroups()
         await this.getTests()
         await this.getTestResults()
+        if (localStorage.role != '1' | localStorage.is_superuser == 'true') {
+            this.notStudent = true      
+            await this.getStudents()
+            await this.getGroups()    
+        }
     },
     watch: {
         selectedGroup: function (val) {

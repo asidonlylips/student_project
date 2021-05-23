@@ -1,23 +1,23 @@
 <template>
     <div class="s2">
           <b-tabs content-class="mt-3" justified>
-            <b-tab title="Посещения на текущий момент" active>
+            <b-tab title="Результаты тестов" active>
+                <div id="filters">
+                    <b-form-select v-model="selectedTest" :options="testsOptions" />
+                    <b-form-select v-model="selectedGroup" :options="groupsOptions" v-show='notStudent' />
+                    <b-form-select v-model="selectedStudent" :options="studentsOptions" v-show='notStudent' />
+                    <br><br><br>
+                </div>
+                <b-table striped hover :items="testsToDisplay"></b-table>
+            </b-tab>
+            
+            <b-tab title="Посещения на текущий момент" active v-if='notStudent'>
                 
                <div id="filters">
                     <b-form-select v-model="selectedGroup" :options="groupsOptions" />
                     <br><br><br>
                 </div>
                 <b-table striped hover :items="studentsToDisplay"></b-table>
-
-            </b-tab>
-            <b-tab title="Результаты тестов">
-                <div id="filters">
-                    <b-form-select v-model="selectedTest" :options="testsOptions"/>
-                    <b-form-select v-model="selectedGroup" :options="groupsOptions" />
-                    <b-form-select v-model="selectedStudent" :options="studentsOptions" />
-                    <br><br><br>
-                </div>
-                <b-table striped hover :items="testsToDisplay"></b-table>
 
             </b-tab>
         </b-tabs>
@@ -46,6 +46,7 @@ import Vue from 'vue';
             testsOptions: [],
             studentsOptions: [],
             groupsOptions: [],
+            notStudent: false,
 
       } 
     },
@@ -116,11 +117,14 @@ import Vue from 'vue';
     },
     
     async mounted() {
-        await this.getStudents()
-        await this.getGroups()
         await this.getTests()
         await this.getTestResults()
-        await this.getStidentsToDisplay()
+        if (localStorage.role != '1' | localStorage.is_superuser == 'true') {
+            this.notStudent = true      
+            await this.getStudents()
+            await this.getGroups()    
+            await this.getStidentsToDisplay()  
+        }
     },
     watch: {
         selectedGroup: function (val) {
