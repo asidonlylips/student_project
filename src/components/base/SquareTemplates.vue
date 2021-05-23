@@ -109,7 +109,7 @@ export default {
 }
 
 .sqLink2 {
-    width: 400px !important;
+    width: 300px !important;
 }
 
 .top-l {
