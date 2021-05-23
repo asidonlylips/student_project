@@ -4,6 +4,7 @@
         <slot class="d-block"> </slot>
         <div id="subj-list">       
             <div class="sqLink" :class="{'sqLink2': !!item.completion_date}" v-for="item in items" :key="item.id" v-on:click="redirect(item.id)">
+                <b-container>
                 <b-row v-if='item.completion_date' class='rem1'>
                     <b-col>
                         {{ item.group }}
@@ -19,7 +20,7 @@
                     </b-col>
                 </b-row >
                 <div v-else><font-awesome-icon class="sm-icon" :icon="icon" :size="'2x'"  />{{ '  ' }} {{ item.name }}</div>
-                 
+                </b-container>
             </div>
         </div>
     </div>
@@ -82,10 +83,11 @@ export default {
 }
 
 #subj-list {
-    display: flexbox;
+    display: flex !important;
     flex-wrap: wrap;
     padding-left: 10%;
     padding-right: 10%;
+    width: 100%;
     flex-direction: row;
     margin: 0px;
 }
@@ -107,7 +109,7 @@ export default {
 }
 
 .sqLink2 {
-    width: 300px !important;
+    width: 400px !important;
 }
 
 .top-l {

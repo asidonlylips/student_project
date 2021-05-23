@@ -117,25 +117,19 @@ export default {
     },
     watch: {
         selectedSemestr: function (val) {
-            if (!val) {
-                this.selectedFolder = null
-                this.folderOption = [{value: null, text: 'Выберите папку'}]
-                this.labs = []
+            this.folderOption = [{value: null, text: 'Выберите папку'}]
                 this.lectures = []
-            }
-            else {
+            this.selectedFolder = null     
+            if (val) {
                 this.getFolders(val)
                 this.getLabs(val)
                 this.getLecture(val)
             }
         },
         selectedFolder: function (val) {
-            console.log(val)
-            if (!val) {
-                this.files = []
-                this.folderName = ''
-            }
-            else {
+            this.files = []
+            this.folderName = ''
+            if (val) {
                 this.getFiles(val)
                 this.folderName = `в папке ${this.getFolderName(val)}`
             }
