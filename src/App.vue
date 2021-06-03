@@ -1,15 +1,16 @@
 <template>
  <div id="app">
     <div id="nav">
-      <custom-router-link class="left hide" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
+      <custom-router-link class="left hide" :icon="['fas', 'university']" :label="'АСУ'" route_name="index" :size="'3x'" />
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Результы'" route_name="tests-results" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
-      <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
-      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Отчеты'" route_name="reports" withLine/>
+      <!-- <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/> -->
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Отчеты'" route_name="reports" withLine/>
       <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
+      <b-link  class="hide" @click="toAdmin"> | <font-awesome-icon :icon="['fas', 'user-cog']"  /> Администрирование </b-link> 
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
@@ -32,6 +33,7 @@
         <b-dropdown-item class="is_showed" v-if="role == '2' | is_superuser" @click="redirect('groups')">Группы</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="role == '2' | is_superuser" @click="redirect('reports')">Отчеты</b-dropdown-item>
         <b-dropdown-item class="is_showed" v-if="is_superuser" @click="redirect('teacher-register')">Добавить</b-dropdown-item>
+        <b-dropdown-item class="is_showed" v-if="role | is_superuser" @click="toAdmin()">Администрирование</b-dropdown-item>
       </b-dropdown>
 
     </div>
@@ -95,7 +97,10 @@ export default {
     },
     redirect(url_name) {
       this.$router.push({name: url_name})
-    }
+    },
+    toAdmin(){
+      window.open('https://localhost:8000/admin', '_blank');
+    },
 
   },
 };
