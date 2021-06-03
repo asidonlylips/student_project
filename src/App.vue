@@ -10,7 +10,7 @@
       <!-- <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/> -->
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Отчеты'" route_name="reports" withLine/>
       <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
-      <b-link  class="hide" @click="toAdmin"> | <font-awesome-icon :icon="['fas', 'user-cog']"  /> Администрирование </b-link> 
+      <b-link  class="hide" @click="toAdmin"  v-if="is_superuser"> | <font-awesome-icon :icon="['fas', 'user-cog']"  /> Администрирование </b-link> 
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">
         <template v-slot:button-content>
