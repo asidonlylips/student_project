@@ -2,6 +2,9 @@
     <div id="subjects">
         <div>
         <h1>Устройства</h1>
+        <div id="filters" >
+            <b-button class='ml-5'>Стенды</b-button>
+        </div>
         <div id="subj-list">            
             <div class="sqLink" v-for="item in devicesList" :key="item.id" v-on:click='showModal(item)'>
                  <font-awesome-icon class="sm-icon" :icon="['fas', 'tablet']" :size="'2x'"  />{{ '  ' }} {{ item.name }}

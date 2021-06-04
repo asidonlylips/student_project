@@ -18,9 +18,9 @@
             <b-collapse :id="'com' + command.id.toString()" class="mt-2 col">
                 <b-card >Описание: {{command.description}}</b-card>
                 <h2 v-if="!!command.subcommands[0]">Подкоманды</h2>
-                <div class="s2" v-for="subcommand in command.subcommands" :key="subcommand.subcommand_name">
-                    <b-button block v-b-toggle="'subcom' + subcommand.subcommand_name" class="mb-1 mt-1 subcom">{{subcommand.subcommand_name}}</b-button>
-                    <b-collapse :id="'subcom' + subcommand.subcommand_name" class="mt-2 col">
+                <div class="s2" v-for="subcommand  in command.subcommands" :key="subcommand.id">
+                    <b-button block v-b-toggle="`subcom_${subcommand.id}`" class="mb-1 mt-1 subcom">{{subcommand.subcommand_name}}</b-button>
+                    <b-collapse :id="`subcom_${subcommand.id}`" class="mt-2 col">
                         <b-card >Описание: {{subcommand.description}}</b-card>
                     </b-collapse>
                 </div>

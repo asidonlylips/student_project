@@ -6,6 +6,7 @@
                     <b-form-select v-model="selectedTest" :options="testsOptions" />
                     <b-form-select v-model="selectedGroup" :options="groupsOptions" v-show='notStudent' />
                     <b-form-select v-model="selectedStudent" :options="studentsOptions" v-show='notStudent' />
+                    <b-link>Скачать отчет</b-link>
                     <br><br><br>
                 </div>
                 <b-table striped hover :items="testsToDisplay"></b-table>
@@ -15,6 +16,7 @@
                 
                <div id="filters">
                     <b-form-select v-model="selectedGroup" :options="groupsOptions" />
+                    <b-link>Скачать отчет</b-link>
                     <br><br><br>
                 </div>
                 <b-table striped hover :items="studentsToDisplay"></b-table>

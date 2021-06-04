@@ -65,8 +65,6 @@
                     </b-col>
                 </b-row>
             </b-container>
-        
-
         <br>
         <b-button type="submit" variant="primary">Зарегистрироваться</b-button><br><br>
     </b-form>

@@ -8,7 +8,7 @@
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Результы'" route_name="tests-results" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
       <!-- <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/> -->
-      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Отчеты'" route_name="reports" withLine/>
+      <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'bookmark']" :label="'Отчеты'" route_name="reports" withLine/>
       <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <b-link  class="hide" @click="toAdmin"  v-if="is_superuser"> | <font-awesome-icon :icon="['fas', 'user-cog']"  /> Администрирование </b-link> 
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
@@ -16,9 +16,9 @@
         <template v-slot:button-content>
           <font-awesome-icon :click="logout" :icon="['fas', 'user']" size='lg' /> {{ username }}
         </template>
-        <b-dropdown-item v-if='authorized'>Профиль</b-dropdown-item>
-        <b-dropdown-item v-else @click="redirect('login')">Войти</b-dropdown-item>
+        <!-- <b-dropdown-item v-if='authorized'>Профиль</b-dropdown-item> -->
         <b-dropdown-item v-if='authorized' @click="logout">Выйти</b-dropdown-item>
+        <b-dropdown-item v-else @click="redirect('login')">Войти</b-dropdown-item>
       </b-dropdown>
 
       <b-dropdown class='left-us is_showed' id="dropdown-1" variant="primary" text="Dropdown Button">
@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      username: 'User',
+      username: 'Неавторизированный пользователь',
       authorized: false,
       is_superuser: false,
       role: null
