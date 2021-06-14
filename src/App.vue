@@ -3,12 +3,12 @@
     <div id="nav">
       <custom-router-link class="left hide" :icon="['fas', 'university']" :label="'БРУ'" route_name="index" :size="'3x'" />
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'book']" :label="'Предметы'" route_name="subjects" :style="{'padding-left': '100px'}" />
-      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands" withLine/>
+
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'check-square']" :label="'Тесты'" route_name="tests" withLine/>
       <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Результы'" route_name="tests-results" withLine/>
-      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices" withLine/>
-      <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'users']" :label="'Группы'" route_name="groups" withLine/>
-      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'robot']" :label="'Отчеты'" route_name="reports" withLine/>
+
+      <custom-router-link class="hide" v-if="role | is_superuser" :icon="['fas', 'bookmark']" :label="'Отчеты'" route_name="reports" withLine/>
+      <custom-router-link class="hide" v-if="role == '2' | is_superuser" :icon="['fas', 'bookmark']" :label="'Администрирование'" route_name="admin" withLine/>
       <custom-router-link class="hide" v-if="is_superuser" :icon="['fas', 'users']" :label="'Добавить преподавателя'" route_name="teacher-register" withLine/>
       <!-- <custom-router-link class="right" :icon="['fas', 'user']" :label="username" route_name="profile"/> -->
       <b-dropdown class='right-us' id="dropdown" variant="primary" text="Dropdown Button">

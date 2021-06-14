@@ -2,6 +2,9 @@
     <div id="subjects">
         <div>
         <h1>Устройства</h1>
+        <div id="filters">
+            <b-link :href="'http://localhost:3080/'" target="_blank">Виртуальная лаборатория</b-link>
+        </div>
         <div id="subj-list">            
             <div class="sqLink" v-for="item in devicesList" :key="item.id" v-on:click='showModal(item)'>
                  <font-awesome-icon class="sm-icon" :icon="['fas', 'tablet']" :size="'2x'"  />{{ '  ' }} {{ item.name }}
@@ -43,6 +46,7 @@ export default {
             selectedDevice: null,
             isConnected: false,
             show: false,
+            url: '',
             data: {
                 command: null
             },
@@ -79,9 +83,12 @@ export default {
             return response
         },
     },
-    mounted() {
-        API.get( this.$getConst('DEVICES_URL')()).then( (response) => {
+    async mounted() {
+        await API.get( this.$getConst('DEVICES_URL')()).then( (response) => {
             this.devicesList = response.data
+        })
+        await API.get( this.$getConst('WEB_URL')()).then( (response) => {
+            this.url = response.data.redirect
         })
     },
     

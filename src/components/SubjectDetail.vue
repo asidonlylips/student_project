@@ -29,6 +29,11 @@
                 <b-card v-if="!selectedSemestr">Выберите семестр</b-card>
                 <b-card v-if="!selectedFolder">Выберите папку</b-card>
             </b-collapse>
+            <b-button block v-b-toggle="'collapse-add'" class="mb-1 mt-1" v-show="allowConsole">Дополнительные материалы</b-button>
+            <b-collapse id="collapse-add" class="mt-2 col">
+                <b-card ><custom-router-link :icon="['fas', 'robot']" :label="'Устройства'" route_name="devices"/></b-card>
+                <b-card ><custom-router-link  :icon="['fas', 'terminal']" :label="'Команды'" route_name="commands"/></b-card>
+            </b-collapse>
         </div>
         <b-modal size="xl" class="modal-12" id="modal-12" :title="'Тесты'">
             <tests :lectureId='selectedLecture' :labId='selectedLab' hideTitle/>
@@ -42,11 +47,13 @@
 import SquareTemplates from './base/SquareTemplates.vue';
 import API from '../api';
 import Tests from './Tests.vue';
+import CustomRouterLink from '../components/base/CustomRouterLink.vue';
 
 export default {
     name: 'SubjectDetail',
     components: {
-        Tests
+        Tests,
+        CustomRouterLink
     },
     data() {
         return {
@@ -62,12 +69,14 @@ export default {
             labs: [],
             selectedLab: '',
             selectedLecture: '',
+            allowConsole: false,
         }
     },
     methods: {
         getSubjectInfo(subj_id) {
             API.get( this.$getConst('SUBJECT_DETAIL_URL')(subj_id)).then( (response) => {
-            this.subjectName = response.data.name
+            this.subjectName = response.data.name,
+            this.allowConsole = response.data.allow_console
             });
         },
         getSemesters(subj_id) {

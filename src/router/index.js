@@ -12,6 +12,7 @@ import TestDetail from '../components/TestDetail'
 import TestResult from '../components/TestResult'
 import TestResultDetail from '../components/TestResultDetail'
 import Reports from '../components/Reports'
+const RedirectAdmin = () => import("../components/RedirectAdmin.vue");
 
 
 export default new VueRouter({
@@ -127,6 +128,14 @@ export default new VueRouter({
             path: '/reports',
             name: 'reports',
             component: Reports,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        { 
+            path: '/admin', 
+            name: 'admin',
+            components: { default: RedirectAdmin },
             meta: {
                 requiresAuth: true
             }
